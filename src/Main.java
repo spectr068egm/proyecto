@@ -154,7 +154,6 @@ public class Main {
             // 2) actualiza la tabla
             DefaultTableModel model = (DefaultTableModel) table.getModel();
             model.setRowCount(0);
-            updateIndicators(model);
             for (Document doc : telemetryData) {
                 @SuppressWarnings("unchecked")
                 List<Integer> datosList = doc.getList("datos", Integer.class);
@@ -167,6 +166,7 @@ public class Main {
                 }
                 model.addRow(row);
             }
+
             // 3) actualiza LEDs sólo con el último documento
             Document last = telemetryData.get(telemetryData.size() - 1);
             List<Integer> datos = last.getList("datos", Integer.class);
@@ -175,6 +175,9 @@ public class Main {
                         datos.get(i) != 0 ? Color.GREEN : Color.RED
                 );
             }
+            updateIndicators(model);
+
+
         });
 
         JPanel ledsAndRefresh = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -357,13 +360,13 @@ public class Main {
             Object v2 = model.getValueAt(lastRow, 2);
             Object v3 = model.getValueAt(lastRow, 3);
             Object v4 = model.getValueAt(lastRow, 4);
-            totalCol2Label.setText("C2: " + v2);
-            totalCol3Label.setText("C3: " + v3);
-            totalCol4Label.setText("C4: " + v4);
+            totalCol2Label.setText("general (W): " + v2);
+            totalCol3Label.setText("S1 (W): " + v3);
+            totalCol4Label.setText("S2 (W): " + v4);
         } else {
-            totalCol2Label.setText("C2: —");
-            totalCol3Label.setText("C3: —");
-            totalCol4Label.setText("C4: —");
+            totalCol2Label.setText("general (W): —");
+            totalCol3Label.setText("S1 (W): —");
+            totalCol4Label.setText("S2 (W): —");
         }
     }
 }
